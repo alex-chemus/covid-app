@@ -71,7 +71,7 @@ export default {
 
 header
     font-size: 18px
-    padding: 1em 10px
+    padding: 1em
     padding-left: 100px
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, .15)
     font-family: 'Roboto'
@@ -85,6 +85,7 @@ header
 .message
     font-size: 1em
     margin: 0
+    margin-right: 3em
 
 #switcher
     background-color: transparent
@@ -108,6 +109,10 @@ header
 .wrapper
     max-width: 1240px
     width: 100%
+
+    display: flex
+    align-items: center
+    justify-content: space-between
 
 nav
     position: absolute
