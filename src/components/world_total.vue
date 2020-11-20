@@ -51,14 +51,7 @@ export default {
 
 
 <style lang="sass" scoped>
-$green: #3BDA00
-$red: #FD0006
-$blue: #1435AD
-
-%centralize
-    display: flex
-    align-items: center
-    justify-content: center
+@import '../styles/main.sass'
 
 main
     font-size: 24px

@@ -1,17 +1,17 @@
 <template>
     <top/>
     <router-view/>
-    <div style="background: blue"></div>
+    <bottom/>
 </template>
 
 <script>
 import top from './components/top.vue'
-//import bottom from './components/bottom.vue'
+import bottom from './components/bottom.vue'
 
 export default {
     name: 'App',
 
-    components: { top }
+    components: { top, bottom }
 }
 </script>
 

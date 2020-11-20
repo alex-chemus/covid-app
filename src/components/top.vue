@@ -1,7 +1,10 @@
 <template>
     <header>
         <button id="switcher">
-            <div id="burger" @click="show_switcher = !show_switcher">
+            <div id="burger" @click="(event) => {
+                    show_switcher = !show_switcher;
+                    event.stopPropagation()
+                }">
                 <div class="line"></div>
                 <div class="line"></div>
                 <div class="line"></div>
@@ -37,6 +40,10 @@ export default {
         const route = router.currentRoute._value.path
         const show_switcher = ref(false)
 
+        document.addEventListener('click', () => {
+            show_switcher.value = false;
+        })
+
         let type;
         if (route === '/' ||
             route === '/total' ||
@@ -60,21 +67,16 @@ export default {
 
 
 <style lang="sass" scoped>
-$green: #3BDA00
-$red: #FD0006
-$blue: #1435AD
-
-%centralize
-    display: flex
-    align-items: center
-    justify-content: center
+@import '../styles/main.sass'
 
 header
     font-size: 18px
-    padding: 1em 100px
+    padding: 1em 10px
+    padding-left: 100px
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, .15)
     font-family: 'Roboto'
     height: auto
+
 
     @extend %centralize
 
