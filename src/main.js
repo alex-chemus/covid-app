@@ -31,7 +31,8 @@ const store = createStore({
             world_total: null,
             world_days: null,
             country_total: null,
-            country_days: null
+            country_days: null,
+            countries: [],
         }
     },
 
@@ -50,6 +51,10 @@ const store = createStore({
 
         country_days(state, data) {
             state.country_days = data
+        },
+
+        set_countries( state, data ) {
+            state.countries = data
         }
     },
 
@@ -80,6 +85,14 @@ const store = createStore({
 
         async country_total({ commit, getters }) {
             console.log(commit, getters)
+        },
+
+        async get_countries({ commit, getters }) {
+            const response = await axios('https://api.covid19api.com/countries')
+
+            commit( 'set_countries', response.data )
+
+            alert('fetched data!')
         }
     },
 
@@ -98,6 +111,10 @@ const store = createStore({
 
         country_days( state ) {
             return state.country_days
+        },
+
+        get_countries( state ) {
+            return state.countries ?? null
         }
     }
 })
