@@ -9,8 +9,7 @@
                 type="text" 
                 placeholder="see the latest data by country" 
                 v-model="name"
-                @focus="show_list = true"
-                @blur="show_list = false">
+                @focus="show_list = true">
 
             <button type="submit" class="style">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -28,9 +27,13 @@
         </form>
 
         <ul 
-            id="list">
-            <li v-for="country in countries" :key="country.index">
-                {{ country.Country }}
+            id="list"
+            v-if="show_list">
+            <li v-for="item in countries" :key="item.index">
+                <router-link :to="`/${item.Slug}/total`" @click="reset">{{ item.Country }}</router-link>
+            </li>
+            <li v-if="countries.length == 0">
+                Nothing found
             </li>
         </ul>
     </div>
@@ -49,23 +52,43 @@ export default {
         const store = useStore()
         let countries = reactive([])
         let show_list = ref(false)
+        let index = ref(6)
 
         store.dispatch( 'get_countries' )
+
+        document.addEventListener('click', event => {
+            if ( !document.querySelector('.form-wrapper').contains(event.target) ) {
+                show_list.value = false
+
+                //alert(event.target)
+                //alert( document.querySelector('.form-wrapper').contains(event.target) )
+            }
+        })
 
         watch(name, name => {
             countries.splice(0, countries.length)
 
             store.getters.get_countries.forEach( (item, index) => {
-                if ( item.Country.toLowerCase().includes(name) ) {
+                if ( item.Country.toLowerCase().includes(name) && name != '' ) {
                     countries.push({ ...item, index })
                 }
-            });
+            })
 
-            //console.log(countries)
+            //console.log('countries new length: ', countries.length)
         })
 
         return {
-            name, countries, show_list
+            name, countries, show_list, index
+        }
+    },
+
+    methods: {
+        reset() {
+            this.show_list = false
+            //console.log('countries length: ', this.countries.length)
+            this.countries.splice(0, this.countries.length)
+            //console.log(this.countries.length, ' ', this.countries)
+            this.name = ''
         }
     }
 }
@@ -111,13 +134,35 @@ button
     cursor: pointer
 
 #list
-    border: 1px solid red
-    height: 100px
+    height: 200px
     width: 100%
-    overflow: hidden
+    overflow-y: scroll
+    overflow-x: hidden
     padding: 0
     margin: 0
     list-style: none
-
     position: absolute
+    box-sizing: border-box
+    padding: .5em 1em
+    border-radius: 10px
+    background-color: rgba(196, 196, 196, .2)
+
+    &::-webkit-scrollbar
+        width: 5px
+
+        &-thumb
+            width: 100%
+            background-color: $blue
+            border-radius: 2.5px
+
+    li
+        &:not(:last-of-type)
+            margin-bottom: .5em
+
+        a
+            display: block
+            width: 100%
+            height: 100%
+            text-decoration: none
+            color: black
 </style>
