@@ -78,11 +78,10 @@ export default {
                     break;
                 
                 case 'Enter':
-                    //const item = countries.find(i => i.index == selected.value)
+                    if ( !show_list.value ) break
                     router.push(`/${countries.find(i => i.index == selected.value).Slug}/total`)
-                    //show_list.value = false
-                    document.body.dispatchEvent( new Event('click') )
-                    //document.querySelector('input').blur()
+                    show_list.value = false
+                    document.querySelector('input').blur()
                     name.value = ''
                     selected.value = 0
                     break;
