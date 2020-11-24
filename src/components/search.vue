@@ -9,7 +9,13 @@
                 type="text" 
                 placeholder="see the latest data by country" 
                 v-model="name"
-                @focus="show_list = true">
+                @focus="show_list = true"
+                @input="log">
+            <!--<datalist id="list" class="list">
+                <option v-for="item in countries" :key="item.index">
+                    <router-link :to="`/${item.Slug}/total`">{{ item.Country }}</router-link>
+                </option>
+            </datalist>-->
 
             <button type="submit" class="style">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -29,7 +35,7 @@
         <ul 
             id="list"
             v-if="show_list">
-            <li v-for="item in countries" :key="item.index">
+            <li v-for="item in countries" :key="item.index" :class="item.index == selected ? 'selected' : ''">
                 <router-link :to="`/${item.Slug}/total`" @click="reset">{{ item.Country }}</router-link>
             </li>
             <li v-if="countries.length == 0">
@@ -43,52 +49,84 @@
 <script>
 import { reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
     name: 'search',
 
     setup() {
-        let name = ref('')
         const store = useStore()
+        const router = useRouter()
+
+        let name = ref('')
         let countries = reactive([])
         let show_list = ref(false)
-        let index = ref(6)
+        let selected = ref(0)
 
         store.dispatch( 'get_countries' )
+
+        document.addEventListener('keydown', event => {
+            switch ( event.key ) {
+                case 'ArrowUp':
+                    selected.value = Math.max( selected.value-1, 0 )
+                    console.log('key up: '+ selected.value)
+                    break;
+
+                case 'ArrowDown':
+                    selected.value = Math.min( selected.value+1, countries.length-1 )
+                    console.log('key down: ' + selected.value)
+                    break;
+                
+                case 'Enter':
+                    //const item = countries.find(i => i.index == selected.value)
+                    router.push(`/${countries.find(i => i.index == selected.value).Slug}/total`)
+                    //show_list.value = false
+                    document.body.dispatchEvent( new Event('click') )
+                    //document.querySelector('input').blur()
+                    name.value = ''
+                    selected.value = 0
+                    break;
+
+                default: break
+            }
+        })
 
         document.addEventListener('click', event => {
             if ( !document.querySelector('.form-wrapper').contains(event.target) ) {
                 show_list.value = false
-
-                //alert(event.target)
-                //alert( document.querySelector('.form-wrapper').contains(event.target) )
+                
             }
         })
 
         watch(name, name => {
             countries.splice(0, countries.length)
 
-            store.getters.get_countries.forEach( (item, index) => {
+            let counter = 0
+
+            store.getters.get_countries.forEach( item => {
                 if ( item.Country.toLowerCase().includes(name) && name != '' ) {
-                    countries.push({ ...item, index })
+                    countries.push({ ...item, index: counter++ })
                 }
             })
 
-            //console.log('countries new length: ', countries.length)
+            selected.value = 0
         })
 
         return {
-            name, countries, show_list, index
+            name, countries, show_list, selected
         }
     },
 
     methods: {
         reset() {
             this.show_list = false
-            //console.log('countries length: ', this.countries.length)
             this.countries.splice(0, this.countries.length)
-            //console.log(this.countries.length, ' ', this.countries)
             this.name = ''
+            this.selected = 0
+        },
+
+        log() {
+            console.log( this.show_list )
         }
     }
 }
@@ -133,8 +171,9 @@ button
     width: calc(1em + 4px)
     cursor: pointer
 
-#list
-    height: 200px
+ul
+    max-height: 200px
+    //height: 200px
     width: 100%
     overflow-y: scroll
     overflow-x: hidden
@@ -143,9 +182,9 @@ button
     list-style: none
     position: absolute
     box-sizing: border-box
-    padding: .5em 1em
+    //padding: .5em 1em
     border-radius: 10px
-    background-color: rgba(196, 196, 196, .2)
+    background-color: $grey
 
     &::-webkit-scrollbar
         width: 5px
@@ -156,6 +195,7 @@ button
             border-radius: 2.5px
 
     li
+        padding: .5em
         &:not(:last-of-type)
             margin-bottom: .5em
 
@@ -165,4 +205,7 @@ button
             height: 100%
             text-decoration: none
             color: black
+
+        &.selected
+            background-color: red
 </style>
