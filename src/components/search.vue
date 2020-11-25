@@ -17,7 +17,7 @@
                 </option>
             </datalist>-->
 
-            <button type="submit" class="style">
+            <button type="submit" class="style" @click="submit">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 512.005 512.005" style="enable-background:new 0 0 512.005 512.005;" xml:space="preserve">
                 <g>
@@ -38,7 +38,7 @@
             <li v-for="item in countries" :key="item.index" :class="item.index == selected ? 'selected' : ''">
                 <router-link :to="`/${item.Slug}/total`" @click="reset">{{ item.Country }}</router-link>
             </li>
-            <li v-if="countries.length == 0">
+            <li v-if="countries.length == 0" class="not-found">
                 Nothing found
             </li>
         </ul>
@@ -69,12 +69,28 @@ export default {
             switch ( event.key ) {
                 case 'ArrowUp':
                     selected.value = Math.max( selected.value-1, 0 )
-                    console.log('key up: '+ selected.value)
+                    
+                    setTimeout(() => {
+                        const elem = document.querySelector('.selected')
+                        const parent = elem.offsetParent
+
+                        if ( elem.offsetTop <= parent.scrollTop ) {
+                            parent.scrollTop = elem.offsetTop
+                        }
+                    })
                     break;
 
                 case 'ArrowDown':
                     selected.value = Math.min( selected.value+1, countries.length-1 )
-                    console.log('key down: ' + selected.value)
+
+                    setTimeout(() => {
+                        const elem = document.querySelector('.selected')
+                        const parent = elem.offsetParent
+
+                        if ( elem.offsetTop + elem.offsetHeight >= parent.clientHeight + parent.scrollTop ) {
+                            parent.scrollTop = elem.offsetHeight + elem.offsetTop - parent.clientHeight
+                        }
+                    })
                     break;
                 
                 case 'Enter':
@@ -103,7 +119,7 @@ export default {
             let counter = 0
 
             store.getters.get_countries.forEach( item => {
-                if ( item.Country.toLowerCase().includes(name) && name != '' ) {
+                if ( item.Country.toLowerCase().includes(name.toLowerCase()) && name != '' ) {
                     countries.push({ ...item, index: counter++ })
                 }
             })
@@ -126,6 +142,16 @@ export default {
 
         log() {
             console.log( this.show_list )
+        },
+
+        submit() {
+            if (this. countries.length <= 0) return
+
+            const country = this.countries.find(item => {
+                return item.index == this.selected
+            })
+
+            this.$router.push(`/${country.Slug}/total`)
         }
     }
 }
@@ -172,7 +198,6 @@ button
 
 ul
     max-height: 200px
-    //height: 200px
     width: 100%
     overflow-y: scroll
     overflow-x: hidden
@@ -181,7 +206,6 @@ ul
     list-style: none
     position: absolute
     box-sizing: border-box
-    //padding: .5em 1em
     border-radius: 10px
     background-color: $grey
 
@@ -205,6 +229,14 @@ ul
             text-decoration: none
             color: black
 
-        &.selected
-            background-color: red
+        &.selected, &:hover
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, .25)
+
+            a
+                color: $blue
+
+        &.not-found
+            @extend %centralize
+            height: 100px
+            color: rgba(0, 0, 0, .5)
 </style>
