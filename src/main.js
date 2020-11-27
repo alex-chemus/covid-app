@@ -91,17 +91,17 @@ const store = createStore({
             console.log(commit, getters)
         },
 
-        async country_total({ commit, getters }) {
-            if (!getters.country_total) {
-               // const response = axios()
+        async country_total({ getters, dispatch }) {
+            //if the list of countries with stats isn't fetched yet:
+            if (!getters.get_countries) {
+                dispatch('get_countries')
             }
-            console.log(commit, getters)
         },
 
         async get_countries({ commit }) {
-            const response = await axios('https://api.covid19api.com/countries')
+            const response = await axios('https://api.covid19api.com/summary')
 
-            commit( 'set_countries', response.data )
+            commit( 'set_countries', response.data.Countries )
 
             //alert('fetched data!')
         }
