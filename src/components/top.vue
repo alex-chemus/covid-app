@@ -11,8 +11,13 @@
             </div>
 
             <nav v-if="show_switcher">
-                <router-link :to="type === 'world' ? '/total' : `/${country}/total`" class="link">Latest data</router-link>
-                <router-link :to="type === 'world' ? '/by-days' : `/${country}/by-days`" class="link">Data by days</router-link>
+                <router-link to="/" class="link">Latest data</router-link>
+
+                <router-link v-if="country" :to="`/${country}/total`" class="link">Latest data by country</router-link>
+                <div class="fake-link" v-else>Latest data by country</div>
+
+                <router-link :to="`/${country}/by-days`" class="link" v-if="country">Data since the first day by country</router-link>
+                <div class="fake-link" v-else>Data since the first day by  country</div>
             </nav>
         </button>
 
@@ -45,9 +50,7 @@ export default {
         })
 
         let type;
-        if (route === '/' ||
-            route === '/total' ||
-            route === '/by-days') {
+        if (route === '/' || route === '/total') {
                 type = ref('world')
             } else {
                 type = ref('country')
@@ -125,11 +128,17 @@ nav
     background-color: white
     font-size: 14px
 
-.link
+.link, .fake-link
     text-decoration: none
-    color: black
     font-size: 1em
     font-family: 'Roboto'
     padding: 1em
     white-space: nowrap
+
+.link
+    color: black
+
+.fake-link
+    color: rgba(0, 0, 0, .5)
+    cursor: pointer
 </style>
