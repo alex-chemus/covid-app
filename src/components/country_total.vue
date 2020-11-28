@@ -3,7 +3,8 @@
         <div class="wrapper">
 
             <p>some value</p>
-            <p>total confirmed: {{ total_confirmed }}</p>
+            <p>total confirmed: {{ info?.total_confirmed }}</p>
+            <p>{{ country }}</p>
 
         </div>
     </main>
@@ -11,8 +12,9 @@
 
 
 <script>
-import { useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
 export default {
     name: 'country_total',
@@ -20,26 +22,16 @@ export default {
     setup() {
         const store = useStore()
         const route = useRoute()
-        const country = route.params.country
+        const country = ref(route.params.country)
         
-        store.dispatch('country_total')
+        store.dispatch('country_total', country.value)
 
-        const stats = store.getters.get_countries.find(item => {
-            console.log( item )
-            return item.Slug == country
-        })
+        return { country }
+    }, 
 
-        console.log( stats )
-
-        return {
-            new_confirmed: stats.NewConfirmed,
-            new_recovered: stats.NewRecovered,
-            new_dead: stats.NewDeaths,
-            total_confirmed: stats.TotalConfirmed,
-            total_recovered: stats.TotalRecovered,
-            total_dead: stats.TotalDeaths 
-        }
-    }
+    computed: mapGetters({
+        info: 'country_total'
+    })
 }
 </script>
 
