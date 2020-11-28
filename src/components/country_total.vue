@@ -3,7 +3,7 @@
         <div class="wrapper">
 
             <p>some value</p>
-            <p>total confirmed: {{ info?.total_confirmed }}</p>
+            <p>total confirmed: {{ info?.confirmed }}</p>
             <p>{{ country }}</p>
 
         </div>

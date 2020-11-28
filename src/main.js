@@ -117,7 +117,7 @@ const store = createStore({
 
                     if (!getters.country_total?.name) {
                         const country = countries.find(item => item.Slug == name)
-                        alert( country.Country )
+                        //alert( country.Country )
 
                         commit('country_total', {
                             name: country.Slug,
