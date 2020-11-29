@@ -128,6 +128,9 @@ nav
     background-color: white
     font-size: 14px
 
+    a:hover
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, .25)
+
 .link, .fake-link
     text-decoration: none
     font-size: 1em
