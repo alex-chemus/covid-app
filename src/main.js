@@ -88,28 +88,6 @@ const store = createStore({
         },
 
         async country_total({ getters, dispatch, commit }, name) {
-            //if the list of countries with stats isn't fetched yet:
-            /*if (!getters.get_countries) {
-                alert("it should've fetched")
-                const result = await dispatch('get_countries')
-                
-            }
-
-            console.log( 'countries: ', getters.get_countries )
-            
-            if ( name != getters.country_total?.name ) {
-                const country = getters.get_countries?.find(item => item.Slug == name)
-
-                commit('country_total', {
-                    name: country.Slug,
-                    confirmed: country.TotalConfirmed,
-                    new_confirmed: country.NewConfirmed,
-                    recovered: country.TotalRecovered,
-                    new_recovered: country.NewRecovered,
-                    dead: country.TotalDeaths,
-                    new_dead: country.NewDeaths
-                })
-            }*/
 
             if ( getters.get_countries.length < 1 ) {
                 dispatch( 'get_countries' ).then(countries => {
@@ -120,7 +98,8 @@ const store = createStore({
                         //alert( country.Country )
 
                         commit('country_total', {
-                            name: country.Slug,
+                            slug: country.Slug,
+                            name: country.Country,
                             confirmed: country.TotalConfirmed,
                             new_confirmed: country.NewConfirmed,
                             recovered: country.TotalRecovered,

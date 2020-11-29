@@ -2,9 +2,29 @@
     <main>
         <div class="wrapper">
 
-            <p>some value</p>
-            <p>total confirmed: {{ info?.confirmed }}</p>
-            <p>{{ country }}</p>
+            <p>{{ info.name }}'s latest COVID-19 data</p>
+
+            <div class="container">
+
+                <div class="confirmed">
+                    <p>Confirmed</p>
+                    <p>{{ info?.confirmed }}</p> 
+                    <span>+ {{ info?.new_confirmed }}</span>   
+                </div>
+
+                <div class="recovered">
+                    <p>Recovered</p>
+                    <p>{{ info?.recovered }}</p>
+                    <span>+ {{ info?.new_recovered }}</span>
+                </div>
+
+                <div class="dead">
+                    <p>Dead</p>
+                    <p>{{ info?.dead }}</p>
+                    <span>+ {{ info?.new_dead }}</span>
+                </div>
+
+            </div>
 
         </div>
     </main>
@@ -38,17 +58,5 @@ export default {
 
 <style lang="sass" scoped>
 @import '../styles/main.sass'
-
-main
-    font-size: 24px
-    font-family: 'Roboto'
-
-.wrapper, main
-    @extend %centralize
-    flex-direction: column
-
-.wrapper
-    width: 100%
-    max-width: 1240px
-    margin: auto
+@import '../styles/total.sass'
 </style>
