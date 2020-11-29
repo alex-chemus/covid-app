@@ -32,15 +32,23 @@ urls:
 /
 */
 
+/*function is_empty(obj) {
+    for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            return false
+        }
+    }
+}*/
+
 //create and define store:
 const store = createStore({
     state() {
         return {
             world_total: null,
-            //world_days: null,
-            country_total: null,
+            //country_total: null,
             country_days: null,
             countries: [],
+            country: null
         }
     },
 
@@ -49,12 +57,13 @@ const store = createStore({
             state.world_total = data
         },
 
-        /*world_days(state, data) {
-            state.world_days = data
+        /*country_total(state, data) {
+            state.country_total = data
         },*/
 
-        country_total(state, data) {
-            state.country_total = data
+        country(state, data) {
+            state.country = data
+            alert('changed the country')
         },
 
         country_days(state, data) {
@@ -87,26 +96,16 @@ const store = createStore({
             console.log(commit, getters)
         },
 
-        async country_total({ getters, dispatch, commit }, name) {
+        async country({ getters, dispatch, commit }, name) {
 
             if ( getters.get_countries.length < 1 ) {
                 dispatch( 'get_countries' ).then(countries => {
-                    console.log( countries || 'countries not found' )
 
-                    if (!getters.country_total?.name) {
+                    if (!getters.country?.name) {
                         const country = countries.find(item => item.Slug == name)
-                        //alert( country.Country )
 
-                        commit('country_total', {
-                            slug: country.Slug,
-                            name: country.Country,
-                            confirmed: country.TotalConfirmed,
-                            new_confirmed: country.NewConfirmed,
-                            recovered: country.TotalRecovered,
-                            new_recovered: country.NewRecovered,
-                            dead: country.TotalDeaths,
-                            new_dead: country.NewDeaths
-                        })
+                        //commit('current_country', country)
+                        commit('country', country)
                     }
                 })
             }
@@ -126,12 +125,8 @@ const store = createStore({
             return state.world_total
         },
 
-        /*world_days( state ) {
-            return state.world_days
-        },*/
-
-        country_total( state ) {
-            return state.country_total
+        country( state ) {
+            return state.country
         },
 
         country_days( state ) {

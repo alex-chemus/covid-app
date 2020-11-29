@@ -13,10 +13,10 @@
             <nav v-if="show_switcher">
                 <router-link to="/" class="link">Latest data</router-link>
 
-                <router-link v-if="country" :to="`/${country}/total`" class="link">Latest data by country</router-link>
+                <router-link v-if="country" :to="`/${country.Slug}/total`" class="link">Latest data by country</router-link>
                 <div class="fake-link" v-else>Latest data by country</div>
 
-                <router-link :to="`/${country}/by-days`" class="link" v-if="country">Data since the first day by country</router-link>
+                <router-link :to="`/${country.Slug}/by-days`" class="link" v-if="country">Data since the first day by country</router-link>
                 <div class="fake-link" v-else>Data since the first day by  country</div>
             </nav>
         </button>
@@ -32,7 +32,7 @@
 <script>
 import search from './search.vue'
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { mapGetters } from 'vuex'
 import { useRouter } from 'vue-router'
 
 export default {
@@ -40,7 +40,6 @@ export default {
 
     setup() {
         const message = ref('See the latest data by country:')
-        const store = useStore()
         const router = useRouter()
         const route = router.currentRoute._value.path
         const show_switcher = ref(false)
@@ -57,14 +56,15 @@ export default {
             }
 
         return { 
-            message, 
-            type,
-            country: store.getters.country_total?.name,
-            show_switcher
+            message, type, show_switcher,
         }
     },
 
-    components: { search }
+    components: { search },
+
+    computed: mapGetters({
+        country: 'country'
+    })
 }
 </script>
 

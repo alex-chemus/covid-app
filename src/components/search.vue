@@ -96,6 +96,7 @@ export default {
                 case 'Enter':
                     if ( !show_list.value ) break
                     router.push(`/${countries.find(i => i.index == selected.value).Slug}/total`)
+                    store.commit('country', countries.find(i => i.index == selected.value))
                     show_list.value = false
                     document.querySelector('input').blur()
                     name.value = ''
@@ -109,7 +110,6 @@ export default {
         document.addEventListener('click', event => {
             if ( !document.querySelector('.form-wrapper').contains(event.target) ) {
                 show_list.value = false
-                
             }
         })
 
@@ -145,13 +145,16 @@ export default {
         },
 
         submit() {
-            if (this. countries.length <= 0) return
+            if (this.countries.length <= 0) return
 
             const country = this.countries.find(item => {
                 return item.index == this.selected
             })
 
             this.$router.push(`/${country.Slug}/total`)
+            this.$store.commit('country', country)
+
+            alert('submitted the form')
         }
     }
 }

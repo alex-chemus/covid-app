@@ -2,26 +2,26 @@
     <main>
         <div class="wrapper">
 
-            <p>{{ info.name }}'s latest COVID-19 data</p>
+            <p>{{ info?.Country }}'s latest COVID-19 data</p>
 
             <div class="container">
 
                 <div class="confirmed">
                     <p>Confirmed</p>
-                    <p>{{ info?.confirmed }}</p> 
-                    <span>+ {{ info?.new_confirmed }}</span>   
+                    <p>{{ info?.TotalConfirmed }}</p> 
+                    <span>+ {{ info?.NewConfirmed }}</span>   
                 </div>
 
                 <div class="recovered">
                     <p>Recovered</p>
-                    <p>{{ info?.recovered }}</p>
-                    <span>+ {{ info?.new_recovered }}</span>
+                    <p>{{ info?.TotalRecovered }}</p>
+                    <span>+ {{ info?.NewRecovered }}</span>
                 </div>
 
                 <div class="dead">
                     <p>Dead</p>
-                    <p>{{ info?.dead }}</p>
-                    <span>+ {{ info?.new_dead }}</span>
+                    <p>{{ info?.TotalDeaths }}</p>
+                    <span>+ {{ info?.NewDeaths }}</span>
                 </div>
 
             </div>
@@ -44,13 +44,13 @@ export default {
         const route = useRoute()
         const country = ref(route.params.country)
         
-        store.dispatch('country_total', country.value)
+        store.dispatch('country', country.value)
 
         return { country }
     }, 
 
     computed: mapGetters({
-        info: 'country_total'
+        info: 'country'
     })
 }
 </script>
