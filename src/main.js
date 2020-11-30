@@ -84,31 +84,13 @@ const store = createStore({
         },
 
         async country_days({ commit, getters, dispatch }, name) {
-            /*if (getters.country) {
-
-                const response = await axios(`https://api.covid19api.com/country/${getters.country.Slug}`)
-                commit('country_days', response)
-
-            } else {
-
-                dispatch('get_countries').then(async countries => {
-                    const country = countries.find(item => item.Slug == name)
-                    commit('country', country)
-
-                    const response = await axios(`https://api.covid19api.com/country/${name}`)
-                    commit('country_days', response)
-                })
-
-            }*/
-
-            //alert('from the main')
-
             const response = await axios(`https://api.covid19api.com/country/${name}`)
-            commit('country_days', response.data)
-
-            if ( ! getters.country ) {
+            commit('country_days', response.data.filter(item => {
+                return item.Confirmed!=0 || item.Recovered!=0 || item.Deaths!=0
+            }))
+                
+            if ( !getters.country ) {
                 console.log( getters.country )
-                //alert('something')
 
                 dispatch('get_countries').then(countries => {
                     const country = countries.find(item => item.Slug == name)
