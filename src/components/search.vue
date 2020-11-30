@@ -154,7 +154,7 @@ export default {
             this.$router.push(`/${country.Slug}/total`)
             this.$store.commit('country', country)
 
-            alert('submitted the form')
+            //alert('submitted the form')
         }
     }
 }
@@ -184,7 +184,7 @@ form
     outline: none
 
     &:focus
-      box-shadow: 0 0 4px 0 rgba(0, 0, 0, .5)  
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, .5)  
 
 input
     margin-right: .5em

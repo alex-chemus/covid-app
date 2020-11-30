@@ -29,16 +29,7 @@ urls:
 /summary - total stats both for world and for countries
 /country/<country-slug> - stats for each day for the country
 /total/country/<country-slug> - the same as above
-/
 */
-
-/*function is_empty(obj) {
-    for (let prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            return false
-        }
-    }
-}*/
 
 //create and define store:
 const store = createStore({
@@ -63,7 +54,7 @@ const store = createStore({
 
         country(state, data) {
             state.country = data
-            alert('changed the country')
+            //alert('changed the country')
         },
 
         country_days(state, data) {
@@ -92,8 +83,38 @@ const store = createStore({
             }
         },
 
-        async country_days({ commit, getters }) {
-            console.log(commit, getters)
+        async country_days({ commit, getters, dispatch }, name) {
+            /*if (getters.country) {
+
+                const response = await axios(`https://api.covid19api.com/country/${getters.country.Slug}`)
+                commit('country_days', response)
+
+            } else {
+
+                dispatch('get_countries').then(async countries => {
+                    const country = countries.find(item => item.Slug == name)
+                    commit('country', country)
+
+                    const response = await axios(`https://api.covid19api.com/country/${name}`)
+                    commit('country_days', response)
+                })
+
+            }*/
+
+            //alert('from the main')
+
+            const response = await axios(`https://api.covid19api.com/country/${name}`)
+            commit('country_days', response.data)
+
+            if ( ! getters.country ) {
+                console.log( getters.country )
+                //alert('something')
+
+                dispatch('get_countries').then(countries => {
+                    const country = countries.find(item => item.Slug == name)
+                    commit('country', country)
+                })
+            }
         },
 
         async country({ getters, dispatch, commit }, name) {
@@ -104,7 +125,6 @@ const store = createStore({
                     if (!getters.country?.name) {
                         const country = countries.find(item => item.Slug == name)
 
-                        //commit('current_country', country)
                         commit('country', country)
                     }
                 })
