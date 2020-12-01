@@ -1,18 +1,18 @@
 <template>
     <main>
-        <div class="wrapper">
 
             <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
 
             <div class="container" v-for="item in info" :key="Date.parse(item.Date)">
 
-                <p class="date">
+                <div class="wrapper">
+                    <p class="date">
                     {{ get_date(item.Date).date }}.
                     {{ get_date(item.Date).month }}.
                     {{ get_date(item.Date).year }}
-                </p>
+                    </p>
 
-                <div class="info">
+                    <div class="info">
                     <div class="confirmed">
                         <p>Confirmed</p>
                         <p>{{ item.Confirmed }}</p> 
@@ -27,11 +27,11 @@
                         <p>Dead</p>
                         <p>{{ item.Deaths }}</p>
                     </div>
+                    </div>
                 </div>
 
             </div>
 
-        </div>
     </main>
 </template>
 
@@ -73,25 +73,36 @@ export default {
 <style lang="sass" scoped>
 @import '../styles/main.sass'
 
-.wrapper
+/*.wrapper
     @extend %centralize
     flex-direction: column
     width: 100%
     max-width: 1240px
     margin: auto
-    padding: 3em 0
+    padding: 3em 0*/
+
+.wrapper
+    @extend %centralize
+    flex-direction: column
+    width: 100%
+    max-width: 1240px 
 
 main
     font-size: 24px
     font-family: 'Roboto'
     flex-direction: column
     @extend %centralize
+    padding: 3em 0
 
 .container
     @extend %centralize
     flex-direction: column
-    width: 100%
-    margin-bottom: 3em
+    width: 100vw
+    //margin-bottom: 3em
+    padding: 1.5em 0
+    
+    &:nth-child(2n)
+        background-color: $grey
     
 .info
     width: 100%
@@ -121,5 +132,6 @@ main
 
 .title
     margin: 0
-    margin-bottom: 2em
+    margin-bottom: 1.5em
+    font-size: 1.2em
 </style>
