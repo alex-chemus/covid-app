@@ -1,37 +1,37 @@
 <template>
     <main>
-
             <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
 
-            <div class="container" v-for="item in info" :key="Date.parse(item.Date)">
-
+            <div class="container" v-for="item in info?.slice(0, amount)" :key="Date.parse(item?.Date)">
                 <div class="wrapper">
                     <p class="date">
-                    {{ get_date(item.Date).date }}.
-                    {{ get_date(item.Date).month }}.
-                    {{ get_date(item.Date).year }}
+                    {{ get_date(item?.Date).date }}.
+                    {{ get_date(item?.Date).month }}.
+                    {{ get_date(item?.Date).year }}
                     </p>
 
                     <div class="info">
                     <div class="confirmed">
                         <p>Confirmed</p>
-                        <p>{{ item.Confirmed }}</p> 
+                        <p>{{ item?.Confirmed }}</p> 
                     </div>
 
                     <div class="recovered">
                         <p>Recovered</p>
-                        <p>{{ item.Recovered }}</p>
+                        <p>{{ item?.Recovered }}</p>
                     </div>
 
                     <div class="dead">
                         <p>Dead</p>
-                        <p>{{ item.Deaths }}</p>
+                        <p>{{ item?.Deaths }}</p>
                     </div>
                     </div>
                 </div>
-
             </div>
 
+            <button v-if="info" id="more" @click="increase">
+                more
+            </button>
     </main>
 </template>
 
@@ -48,8 +48,11 @@ export default {
         const store = useStore()
         const route = useRoute()
         const country = ref(route.params.country)
+        let amount = ref(10)
 
         store.dispatch('country_days', country.value)
+
+        return { amount }
     },
 
     computed: mapGetters({
@@ -64,6 +67,12 @@ export default {
                 month: date.getMonth() < 10 ? '0'+date.getMonth() : date.getMonth(),
                 date: date.getDate() < 10 ? '0'+date.getDate() : date.getDate()
             }
+        },
+
+        increase() {
+            const curr_scroll = window.pageYOffset
+            this.amount+=10
+            setTimeout(() => { window.scrollTo(0, curr_scroll) })
         }
     }
 }
@@ -97,8 +106,7 @@ main
 .container
     @extend %centralize
     flex-direction: column
-    width: 100vw
-    //margin-bottom: 3em
+    width: 100%
     padding: 1.5em 0
     
     &:nth-child(2n)
@@ -134,4 +142,18 @@ main
     margin: 0
     margin-bottom: 1.5em
     font-size: 1.2em
+
+#more
+    font-size: 18px
+    border: 1px solid $blue
+    padding: .2em
+    border-radius: 10px
+    background-color: white
+    outline: none
+    cursor: pointer
+
+    &:hover
+        background-color: $blue
+        color: white 
+        border-color: transparent
 </style>
