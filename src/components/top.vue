@@ -74,7 +74,7 @@ export default {
 
 header
     font-size: 18px
-    padding: 1em
+    padding: 0
     padding-left: 100px
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, .15)
     font-family: 'Roboto'

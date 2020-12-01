@@ -2,7 +2,7 @@
     <main>
         <div class="wrapper">
 
-            <p>{{ info[0]?.Country }}'s data by every day</p>
+            <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
 
             <div class="container" v-for="item in info" :key="Date.parse(item.Date)">
 
@@ -70,9 +70,56 @@ export default {
 </script>
 
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import '../styles/main.sass'
 
+.wrapper
+    @extend %centralize
+    flex-direction: column
+    width: 100%
+    max-width: 1240px
+    margin: auto
+    padding: 3em 0
+
+main
+    font-size: 24px
+    font-family: 'Roboto'
+    flex-direction: column
+    @extend %centralize
+
 .container
-    @extend %centralize    
+    @extend %centralize
+    flex-direction: column
+    width: 100%
+    margin-bottom: 3em
+    
+.info
+    width: 100%
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    grid-gap: 30px
+
+    div
+        @extend %centralize
+        flex-direction: column
+
+        p 
+            margin: 0
+
+        p:not(:last-child) 
+            margin-bottom: 1em
+
+.date
+    margin: 0
+    margin-bottom: 1em
+
+.recovered 
+    color: $green
+
+.dead
+    color: $red
+
+.title
+    margin: 0
+    margin-bottom: 2em
 </style>
