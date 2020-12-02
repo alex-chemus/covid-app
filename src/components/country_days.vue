@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main v-if="info">
             <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
 
             <div class="container" v-for="item in info?.slice(0, amount)" :key="Date.parse(item?.Date)">
@@ -29,9 +29,12 @@
                 </div>
             </div>
 
-            <button v-if="info" id="more" @click="increase">
+            <button id="more" @click="increase">
                 more
             </button>
+    </main>
+    <main v-else>
+        <loader></loader>
     </main>
 </template>
 
@@ -40,6 +43,7 @@
 import { mapGetters, useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import loader from './loader'
 
 export default {
     name: 'country_days',
@@ -74,7 +78,9 @@ export default {
             this.amount+=10
             setTimeout(() => { window.scrollTo(0, curr_scroll) })
         }
-    }
+    },
+
+    components: { loader }
 }
 </script>
 

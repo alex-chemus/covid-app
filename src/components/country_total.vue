@@ -1,11 +1,10 @@
 <template>
     <main>
-        <div class="wrapper">
+        <div class="wrapper" v-if="info">
 
             <p>{{ info?.Country }}'s latest COVID-19 data</p>
 
             <div class="container">
-
                 <div class="confirmed">
                     <p>Confirmed</p>
                     <p>{{ info?.TotalConfirmed }}</p> 
@@ -23,10 +22,10 @@
                     <p>{{ info?.TotalDeaths }}</p>
                     <span>+ {{ info?.NewDeaths }}</span>
                 </div>
-
             </div>
 
         </div>
+        <loader v-else></loader>
     </main>
 </template>
 
@@ -35,6 +34,7 @@
 import { mapGetters, useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import loader from './loader'
 
 export default {
     name: 'country_total',
@@ -51,7 +51,9 @@ export default {
 
     computed: mapGetters({
         info: 'country'
-    })
+    }),
+
+    components: { loader }
 }
 </script>
 

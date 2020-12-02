@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="wrapper">
+        <div class="wrapper" v-if="info">
             <p id='title'>World's latest COVID-19 data</p>
 
             <div class="container">
@@ -20,13 +20,17 @@
                     <span>+ {{ info?.new_dead }}</span>
                 </div>
             </div>
+            <!--<loader v-else id="loader"></loader>-->
         </div>
+        <loader v-else></loader>
     </main>
 </template>
 
 
 <script>
 import { useStore, mapGetters } from 'vuex'
+import loader from './loader'
+//import Loader from './loader.vue'
 
 export default {
     name: 'world_total',
@@ -45,6 +49,8 @@ export default {
     computed: mapGetters({
         info: 'world_total'
     }),
+
+    components: { loader }
 }
 </script>
 
