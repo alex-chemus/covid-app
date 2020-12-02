@@ -68,7 +68,7 @@ const store = createStore({
 
     actions: {
         async world_total({ commit, getters }) {
-            if (!getters.world_total) {
+            /*if (!getters.world_total) {
                 const response = await axios('https://api.covid19api.com/summary')
                 const result = response.data.Global
 
@@ -80,11 +80,34 @@ const store = createStore({
                     dead: result.TotalDeaths,
                     new_dead: result.NewDeaths
                 })
+            }*/
+
+            function send() {
+                axios('https://api.covid19api.com/summary')
+                .then(response => {
+                    const result = response.data.Global
+
+                    commit('world_total', {
+                        confirmed: result.TotalConfirmed,
+                        new_confirmed: result.NewConfirmed,
+                        recovered: result.TotalRecovered,
+                        new_recovered: result.NewRecovered,
+                        dead: result.TotalDeaths,
+                        new_dead: result.NewDeaths
+                    })
+                })
+                .catch(() => {
+                    setTimeout(send, 20000)
+                })
+            }
+
+            if (!getters.world_total) {
+                send()
             }
         },
 
         async country_days({ commit, getters, dispatch }, name) {
-            const response = await axios(`https://api.covid19api.com/country/${name}`)
+            /*const response = await axios(`https://api.covid19api.com/country/${name}`)
             commit('country_days', response.data.filter(item => {
                 return item.Confirmed!=0 || item.Recovered!=0 || item.Deaths!=0
             }))
@@ -96,7 +119,29 @@ const store = createStore({
                     const country = countries.find(item => item.Slug == name)
                     commit('country', country)
                 })
+            }*/
+
+            function send() {
+                axios(`https://api.covid19api.com/country/${name}`)
+                .then(response => {
+                    commit('country_days', response.data.filter(item => {
+                        return item.Confirmed!=0 || item.Recovered!=0 || item.Deaths!=0
+                    }))
+
+                    if ( !getters.country ) {
+                        //console.log( getters.country )
+        
+                        dispatch('get_countries').then(countries => {
+                            const country = countries.find(item => item.Slug == name)
+                            commit('country', country)
+                        })
+                    }
+                })
+                .catch(() => {
+                    setTimeout(send, 20000)
+                })
             }
+            send()
         },
 
         async country({ getters, dispatch, commit }, name) {
@@ -114,11 +159,23 @@ const store = createStore({
         },
 
         async get_countries({ commit }) {
-            const response = await axios('https://api.covid19api.com/summary')
+            /*const response = await axios('https://api.covid19api.com/summary')
 
             commit( 'set_countries', response.data.Countries )
+            return Promise.resolve(response.data.Countries)*/
 
-            return Promise.resolve(response.data.Countries)
+            function send() {
+                axios('https://api.covid19api.com/summary')
+                .then(response => {
+                    commit( 'set_countries', response.data.Countries )
+                    return Promise.resolve(response.data.Countries)
+                })
+                .catch(() => {
+                    setTimeout(send, 20000)
+                    //alert('failed to fetch data from api. I\'l try in 20 seconds')
+                })
+            }
+            send()
         }
     },
 

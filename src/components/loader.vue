@@ -15,7 +15,6 @@
     height: 1em
     position: relative
     border-radius: .5em
-    //border: 1px solid red
     overflow: hidden
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .25)
 
