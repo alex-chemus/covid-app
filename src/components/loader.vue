@@ -11,12 +11,18 @@
 #container
     font-size: 12px
     width: 100% 
-    max-width: 80vw
+    max-width: 40vw
     height: 1em
     position: relative
     border-radius: .5em
     overflow: hidden
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .25)
+
+    @media screen and (max-width: 768px)
+        max-width: 60vw
+
+    @media screen and (max-width: 480px)
+        max-width: 80vw
 
 #loader
     height: 100%
