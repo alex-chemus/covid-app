@@ -21,7 +21,7 @@ const router = createRouter({
         { path: '/:country/by-days', component: country_days },
         { path: '/:pathMatch(.*)', component: not_found }
     ],
-    history: createWebHashHistory()
+    history: createWebHistory()
 })
 
 /*
