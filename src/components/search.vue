@@ -39,7 +39,7 @@
                 <router-link :to="`/${item.Slug}/total`" @click="reset">{{ item.Country }}</router-link>
             </li>
             <li v-if="countries.length == 0" class="not-found">
-                Nothing found
+                {{ message }}
             </li>
         </ul>
     </div>
@@ -62,6 +62,7 @@ export default {
         let countries = reactive([])
         let show_list = ref(false)
         let selected = ref(0)
+        let message = ref('Start typing...')
 
         store.dispatch( 'get_countries' )
 
@@ -109,11 +110,13 @@ export default {
 
         document.addEventListener('click', event => {
             if ( !document.querySelector('.form-wrapper').contains(event.target) ) {
-                show_list.value = false
+                show_list.value = false;
+                message.value = 'Start typing...'
             }
         })
 
         watch(name, name => {
+            message.value = 'Nothing found'
             countries.splice(0, countries.length)
 
             let counter = 0
@@ -128,7 +131,7 @@ export default {
         })
 
         return {
-            name, countries, show_list, selected
+            name, countries, show_list, selected, message
         }
     },
 
