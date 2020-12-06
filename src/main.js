@@ -1,6 +1,6 @@
 //import packages:
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { createStore } from 'vuex'
 import axios from 'axios'
 
