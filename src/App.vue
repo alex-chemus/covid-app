@@ -23,7 +23,7 @@ html, body
     min-height: 100vh
 
 #app
-    min-height: 100%
+    min-height: 100vh
     width: 100%
     display: grid
     font-size: 18px
