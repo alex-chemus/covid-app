@@ -149,6 +149,7 @@ const store = createStore({
             if ( getters.get_countries.length < 1 ) {
                 dispatch( 'get_countries' ).then(countries => {
 
+                    console.log(countries)
                     if (!getters.country?.name) {
                         const country = countries.find(item => item.Slug == name)
 
@@ -164,18 +165,27 @@ const store = createStore({
             commit( 'set_countries', response.data.Countries )
             return Promise.resolve(response.data.Countries)*/
 
-            function send() {
-                axios('https://api.covid19api.com/summary')
+            async function send() {
+                /*axios('https://api.covid19api.com/summary')
                 .then(response => {
                     commit( 'set_countries', response.data.Countries )
+                    console.log('original data: ', response)
                     return Promise.resolve(response.data.Countries)
                 })
                 .catch(() => {
                     setTimeout(send, 20000)
-                    //alert('failed to fetch data from api. I\'l try in 20 seconds')
-                })
+                    alert('failed to fetch data from api. I\'l try in 20 seconds')
+                })*/
+
+                try {
+                    const response = await axios('https://api.covid19api.com/summary')
+                    commit('set_countries', response.data.Countries)
+                    return Promise.resolve(response.data.Countries)
+                } catch(err) {
+                    setTimeout(send, 20000)
+                }
             }
-            send()
+            return send()
         }
     },
 

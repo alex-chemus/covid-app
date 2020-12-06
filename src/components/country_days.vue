@@ -1,41 +1,43 @@
 <template>
-    <main v-if="info">
-            <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
+    <transition name="show" mode="out-in">
+        <main v-if="info">
+                <p class="title">{{ info?.length ? info[0].Country+'\'s data by every day' : ''}}</p>
 
-            <div class="container" v-for="item in info?.slice(0, amount)" :key="Date.parse(item?.Date)">
-                <div class="wrapper">
-                    <p class="date">
-                    {{ get_date(item?.Date).date }}.
-                    {{ get_date(item?.Date).month }}.
-                    {{ get_date(item?.Date).year }}
-                    </p>
+                <div class="container" v-for="item in info?.slice(0, amount)" :key="Date.parse(item?.Date)">
+                    <div class="wrapper">
+                        <p class="date">
+                        {{ get_date(item?.Date).date }}.
+                        {{ get_date(item?.Date).month }}.
+                        {{ get_date(item?.Date).year }}
+                        </p>
 
-                    <div class="info">
-                    <div class="confirmed">
-                        <p>Confirmed</p>
-                        <p>{{ item?.Confirmed }}</p> 
-                    </div>
+                        <div class="info">
+                        <div class="confirmed">
+                            <p>Confirmed</p>
+                            <p>{{ item?.Confirmed }}</p> 
+                        </div>
 
-                    <div class="recovered">
-                        <p>Recovered</p>
-                        <p>{{ item?.Recovered }}</p>
-                    </div>
+                        <div class="recovered">
+                            <p>Recovered</p>
+                            <p>{{ item?.Recovered }}</p>
+                        </div>
 
-                    <div class="dead">
-                        <p>Dead</p>
-                        <p>{{ item?.Deaths }}</p>
-                    </div>
+                        <div class="dead">
+                            <p>Dead</p>
+                            <p>{{ item?.Deaths }}</p>
+                        </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <button id="more" @click="increase">
-                more
-            </button>
-    </main>
-    <main v-else>
-        <loader></loader>
-    </main>
+                <button id="more" @click="increase">
+                    more
+                </button>
+        </main>
+        <main v-else>
+            <loader></loader>
+        </main>
+    </transition>
 </template>
 
 
@@ -162,4 +164,18 @@ main
         background-color: $blue
         color: white 
         border-color: transparent
+
+.show-enter-from,
+.show-leave-to
+    opacity: 0
+
+.show-enter-to,
+.show-leave-from
+    opacity: 1
+
+.show-enter-active
+    transition: 1s
+
+.show-leave-active
+    transition: .1s
 </style>

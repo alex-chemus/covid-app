@@ -1,31 +1,33 @@
 <template>
     <main>
-        <div class="wrapper" v-if="info">
+        <transition name="show" mode="out-in">
+            <div class="wrapper" v-if="info">
 
-            <p>{{ info?.Country }}'s latest COVID-19 data</p>
+                <p>{{ info?.Country }}'s latest COVID-19 data</p>
 
-            <div class="container">
-                <div class="confirmed">
-                    <p>Confirmed</p>
-                    <p>{{ info?.TotalConfirmed }}</p> 
-                    <span>+ {{ info?.NewConfirmed }}</span>   
+                <div class="container">
+                    <div class="confirmed">
+                        <p>Confirmed</p>
+                        <p>{{ info?.TotalConfirmed }}</p> 
+                        <span>+ {{ info?.NewConfirmed }}</span>   
+                    </div>
+
+                    <div class="recovered">
+                        <p>Recovered</p>
+                        <p>{{ info?.TotalRecovered }}</p>
+                        <span>+ {{ info?.NewRecovered }}</span>
+                    </div>
+
+                    <div class="dead">
+                        <p>Dead</p>
+                        <p>{{ info?.TotalDeaths }}</p>
+                        <span>+ {{ info?.NewDeaths }}</span>
+                    </div>
                 </div>
 
-                <div class="recovered">
-                    <p>Recovered</p>
-                    <p>{{ info?.TotalRecovered }}</p>
-                    <span>+ {{ info?.NewRecovered }}</span>
-                </div>
-
-                <div class="dead">
-                    <p>Dead</p>
-                    <p>{{ info?.TotalDeaths }}</p>
-                    <span>+ {{ info?.NewDeaths }}</span>
-                </div>
             </div>
-
-        </div>
-        <loader v-else></loader>
+            <loader v-else></loader>
+        </transition>
     </main>
 </template>
 

@@ -1,28 +1,30 @@
 <template>
     <main>
-        <div class="wrapper" v-if="info">
-            <p id='title'>World's latest COVID-19 data</p>
+        <transition name="show" mode="out-in">
+            <div class="wrapper" v-if="info">
+                <p id='title'>World's latest COVID-19 data</p>
 
-            <div class="container">
-                <div class="confirmed">
-                    <p>Confirmed</p>
-                    <p>{{ info?.confirmed }}</p>
-                    <span>+ {{ info?.new_confirmed }}</span>
+                <div class="container">
+                    <div class="confirmed">
+                        <p>Confirmed</p>
+                        <p>{{ info?.confirmed }}</p>
+                        <span>+ {{ info?.new_confirmed }}</span>
+                    </div>
+                    <div class="recovered">
+                        <p>Recovered</p>
+                        <p>{{ info?.recovered }}</p>
+                        <span>+ {{ info?.new_recovered }}</span>
+                    </div>
+                    <div class="dead">
+                        <p>Dead</p>
+                        <p>{{ info?.dead }}</p>
+                        <span>+ {{ info?.new_dead }}</span>
+                    </div>
                 </div>
-                <div class="recovered">
-                    <p>Recovered</p>
-                    <p>{{ info?.recovered }}</p>
-                    <span>+ {{ info?.new_recovered }}</span>
-                </div>
-                <div class="dead">
-                    <p>Dead</p>
-                    <p>{{ info?.dead }}</p>
-                    <span>+ {{ info?.new_dead }}</span>
-                </div>
+                <!--<loader v-else id="loader"></loader>-->
             </div>
-            <!--<loader v-else id="loader"></loader>-->
-        </div>
-        <loader v-else></loader>
+            <loader v-else></loader>
+        </transition>
     </main>
 </template>
 
