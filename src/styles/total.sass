@@ -3,6 +3,9 @@ main
     font-family: 'Roboto'
     flex-direction: column
 
+    @media screen and (max-width: 480px)
+        font-size: 14px
+
 .wrapper, main
     @extend %centralize
 
@@ -37,7 +40,7 @@ p
             margin-bottom: 1em
         span
             margin-top: 0.5em
-            font-size: 24px
+            font-size: 1em
             opacity: .75
 
 .recovered

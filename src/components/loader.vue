@@ -11,7 +11,7 @@
 #container
     font-size: 12px
     width: 100% 
-    max-width: 40em
+    max-width: 80vw
     height: 1em
     position: relative
     border-radius: .5em
@@ -24,7 +24,6 @@
     background-color: $blue
     opacity: .8
     position: absolute
-    //border: 1px solid black
     border-radius: .5em
     
     animation: load

@@ -177,6 +177,9 @@ form
     font-size: 18px
     position: relative
 
+    @media screen and (max-width: 480px)
+        font-size: 14px
+
 .style
     border: 1px solid $blue
     padding: .2em
@@ -196,11 +199,18 @@ input
 svg
     height: calc(1em + 4px)
 
+    @media screen and (max-width: 480px)
+        height: 1em
+
 button
     box-sizing: content-box
     height: calc(1em + 4px)
     width: calc(1em + 4px)
     cursor: pointer
+
+    @media screen and (max-width: 480px)
+        width: 1em
+        height: 1em
 
 ul
     max-height: 200px

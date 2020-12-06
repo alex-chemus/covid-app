@@ -20,11 +20,15 @@ body
     margin: 0
 
 html, body
-    height: 100vh
+    min-height: 100vh
 
 #app
-    height: 100vh
+    min-height: 100vh
+    width: 100%
     display: grid
     font-size: 18px
     grid-template-rows: 3em 1fr 3em
+
+    @media screen and (max-width: 380px)
+        font-size: 14px
 </style>

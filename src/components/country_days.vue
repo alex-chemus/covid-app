@@ -110,6 +110,11 @@ main
     flex-direction: column
     @extend %centralize
     padding: 3em 0
+    box-sizing: border-box
+    overflow-x: hidden
+
+    @media screen and (max-width: 480px)
+        font-size: 14px
 
 .container
     @extend %centralize
@@ -159,6 +164,9 @@ main
     background-color: white
     outline: none
     cursor: pointer
+
+    @media screen and (max-width: 480px)
+        font-size: 14px
 
     &:hover
         background-color: $blue

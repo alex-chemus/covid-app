@@ -43,6 +43,11 @@ footer
     @extend %centralize
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, .15)
     padding: 0 1em
+    box-sizing: border-box
+    max-width: 100vw
+
+    @media screen and (max-width: 480px)
+        font-size: 14px
 
 p
     font-size: 1em
