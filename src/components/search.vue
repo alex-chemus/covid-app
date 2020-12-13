@@ -8,9 +8,9 @@
                 class="style" 
                 type="text" 
                 placeholder="see the latest data by country" 
-                v-model="name"
-                @focus="show_list = true"
-                @input="log">
+                @input="e => name = e.target.value"
+                :value="name"
+                @focus="show_list = true">
             <!--<datalist id="list" class="list">
                 <option v-for="item in countries" :key="item.index">
                     <router-link :to="`/${item.Slug}/total`">{{ item.Country }}</router-link>

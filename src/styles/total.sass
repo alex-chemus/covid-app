@@ -30,9 +30,19 @@ p
     grid-template-columns: 1fr 1fr 1fr
     grid-gap: 30px
 
+    @media screen and (max-width: 480px)
+        display: flex
+        flex-direction: column
+        justify-content: center
+        grid-gap: 0
+
     div
         @extend %centralize
         flex-direction: column
+
+        &:not(:last-child)
+            @media screen and (max-width: 480px)
+                margin-bottom: 1.5em 
 
         p
             margin: 0

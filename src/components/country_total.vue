@@ -3,7 +3,7 @@
         <transition name="show" mode="out-in">
             <div class="wrapper" v-if="info">
 
-                <p>{{ info?.Country }}'s latest COVID-19 data</p>
+                <p id="title">{{ info?.Country }}'s latest COVID-19 data</p>
 
                 <div class="container">
                     <div class="confirmed">
