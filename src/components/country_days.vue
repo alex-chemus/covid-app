@@ -114,7 +114,7 @@ main
     overflow-x: hidden
 
     @media screen and (max-width: 480px)
-        font-size: 14px
+        font-size: 16px
 
 .container
     @extend %centralize
@@ -166,7 +166,7 @@ main
     cursor: pointer
 
     @media screen and (max-width: 480px)
-        font-size: 14px
+        font-size: 16px
 
     &:hover
         background-color: $blue

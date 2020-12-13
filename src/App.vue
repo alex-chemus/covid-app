@@ -30,5 +30,5 @@ html, body
     grid-template-rows: 3em 1fr 3em
 
     @media screen and (max-width: 380px)
-        font-size: 14px
+        font-size: 16px
 </style>

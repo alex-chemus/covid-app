@@ -178,7 +178,7 @@ form
     position: relative
 
     @media screen and (max-width: 480px)
-        font-size: 14px
+        font-size: 16px
 
 .style
     border: 1px solid $blue

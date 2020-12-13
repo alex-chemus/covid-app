@@ -21,6 +21,9 @@ main
     @extend %centralize
     flex-direction: column
 
+    @media screen and (max-width: 480px)
+        font-size: 16px
+
 #title, p
     margin: 0
 
