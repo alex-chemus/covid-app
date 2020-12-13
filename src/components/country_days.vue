@@ -168,7 +168,7 @@ main
     @media screen and (max-width: 480px)
         font-size: 16px
 
-    &:hover
+    &:active
         background-color: $blue
         color: white 
         border-color: transparent

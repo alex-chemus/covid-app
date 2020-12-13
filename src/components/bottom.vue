@@ -47,7 +47,7 @@ footer
     max-width: 100vw
 
     @media screen and (max-width: 480px)
-        font-size: 14px
+        font-size: 16px
 
 p
     font-size: 1em
